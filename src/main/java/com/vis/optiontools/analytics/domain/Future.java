@@ -18,6 +18,7 @@ public class Future implements Comparable<Future>{
 	long changeinOpenInterest;
 	double pchangeinOpenInterest;
 	Date futureTimeStamp;
+	String sFutureTimestamp;
 	
 	public Future(String sExpiryDate, double closePrice, double lastPrice, double change, double pChange,
 			long numberOfContractsTraded, double underlyingValue, long tradedVolume, long openInterest,
@@ -42,6 +43,7 @@ public class Future implements Comparable<Future>{
 		this.pchangeinOpenInterest = pchangeinOpenInterest;
 		
 		try {
+			sFutureTimestamp=sFutTimestamp;
 			futureTimeStamp=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").parse(sFutTimestamp);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -212,7 +214,7 @@ public class Future implements Comparable<Future>{
 				+ ", lastPrice=" + lastPrice + ", change=" + change + ", pChange=" + pChange
 				+ ", numberOfContractsTraded=" + numberOfContractsTraded + ", underlyingValue=" + underlyingValue
 				+ ", tradedVolume=" + tradedVolume + ", openInterest=" + openInterest + ", changeinOpenInterest="
-				+ changeinOpenInterest + ", pchangeinOpenInterest=" + pchangeinOpenInterest + ", futureTimeStamp "+futureTimeStamp+"]";
+				+ changeinOpenInterest + ", pchangeinOpenInterest=" + pchangeinOpenInterest+ ", sFutureTimeStamp "+sFutureTimestamp + ", futureTimeStamp "+futureTimeStamp+"]";
 	}
 	
 	@Override
@@ -222,7 +224,11 @@ public class Future implements Comparable<Future>{
 	}
 	@Override
 	public int compareTo(Future o) {
-		return futureTimeStamp.compareTo(o.futureTimeStamp);
+		if(futureTimeStamp.getTime()==o.getFutureTimeStamp().getTime())return 0;
+		if(futureTimeStamp.getTime()>o.getFutureTimeStamp().getTime())return -1;
+		if(futureTimeStamp.getTime()<o.getFutureTimeStamp().getTime())return 1;
+		
+		return -1;
 	}
 	
 }

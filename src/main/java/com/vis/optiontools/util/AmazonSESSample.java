@@ -40,7 +40,11 @@ public class AmazonSESSample {
 
   public static void main(String[] args) throws IOException {
 
-    try {
+    sendEmail(SUBJECT,TEXTBODY,TO);
+  }
+
+public static void sendEmail(String subject,String body, String to) {
+	try {
       AmazonSimpleEmailService client = 
           AmazonSimpleEmailServiceClientBuilder.standard()
           // Replace US_WEST_2 with the AWS Region you're using for
@@ -48,15 +52,15 @@ public class AmazonSESSample {
             .withRegion(Regions.AP_SOUTH_1).build();
       SendEmailRequest request = new SendEmailRequest()
           .withDestination(
-              new Destination().withToAddresses(TO))
+              new Destination().withToAddresses(to))
           .withMessage(new Message()
               .withBody(new Body()
                   .withHtml(new Content()
-                      .withCharset("UTF-8").withData(HTMLBODY))
+                      .withCharset("UTF-8").withData(body))
                   .withText(new Content()
-                      .withCharset("UTF-8").withData(TEXTBODY)))
+                      .withCharset("UTF-8").withData(body)))
               .withSubject(new Content()
-                  .withCharset("UTF-8").withData(SUBJECT)))
+                  .withCharset("UTF-8").withData(subject)))
           .withSource(FROM);
           // Comment or remove the next line if you are not using a
           // configuration set
@@ -67,5 +71,5 @@ public class AmazonSESSample {
       System.out.println("The email was not sent. Error message: " 
           + ex.getMessage());
     }
-  }
+}
 }

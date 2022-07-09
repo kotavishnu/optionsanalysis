@@ -6,7 +6,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class DayFutures {
-	SortedSet<Future> futures=new TreeSet<Future>();
+	SortedSet <Future> futures=new TreeSet<Future>();
 	Date analysisData;
 	public DayFutures(Date date) {
 		super();
@@ -23,9 +23,10 @@ public class DayFutures {
 	}
 	
 	public boolean isOpenVolumeGreaterThan(int volume) {
-		Future openFutureOfTheDay=futures.last();
-		System.out.println("openFutureOfTheDay "+openFutureOfTheDay);
-		return openFutureOfTheDay.getTradedVolume() * 25 > volume;
+		Future last=futures.last();
+		System.out.println("Open future of the day is "+last);
+		System.out.println("Volume is "+last.getTradedVolume()+" time is "+last.getFutureTimeStamp());
+		return last.getTradedVolume()*25>volume;
 	}
 	
 	public boolean isLast5MinsVolumeGreaterThan(int volume) {
@@ -41,5 +42,24 @@ public class DayFutures {
 		Iterator<Future> it = futures2.iterator();
 		it.next();
 		return it.next();
+	}
+	
+	public int size() {
+		return futures.size();
+	}
+	
+	public void validate() {
+		if(futures.size()<2)return;
+		Future last = futures.last();
+		Future first = futures.first();
+		System.out.println(" last is " + last);
+		System.out.println(" first is " + first);
+		if (last.getFutureTimeStamp().getDate() != first.getFutureTimeStamp().getDate()) {
+			System.out.println("Previous day future found removing "+last);
+			futures.remove(last);
+			System.out.println("new first element is "+futures.last());
+		}
+		
+		
 	}
 }
